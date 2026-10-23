@@ -9,6 +9,13 @@ public class SharkBehavior : MonoBehaviour
     [SerializeField] private float minFireDelay = 1.5f;
     [SerializeField] private float maxFireDelay = 4.0f;
     [SerializeField] private float sightDistance = 20.0f;
+
+    [Header("Loot")]
+    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private GameObject pearlPrefab;
+    [SerializeField, Range(0.0f, 1.0f)] private float coinChance = 0.3f;
+    [SerializeField, Range(0.0f, 1.0f)] private float pearlChance = 0.1f;
+
     private SharkFormation formation;
     private LayerMask sightMask;
     private float halfHeight;
@@ -73,8 +80,24 @@ public class SharkBehavior : MonoBehaviour
     {
         if (other.GetComponent<TorpedoBehavior>() != null)
         {
+            DropLoot();
             Destroy(other.gameObject);   
             Destroy(gameObject);  
         }
     }
+
+    private void DropLoot()
+    {
+        float roll = Random.value;
+
+        if (roll < pearlChance)
+        {
+            Instantiate(pearlPrefab, transform.position, Quaternion.identity);
+        }
+        else if (roll < pearlChance + coinChance)
+        {
+            Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        }
+    }
+
 }

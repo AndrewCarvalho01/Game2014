@@ -147,3 +147,7 @@ MonoBehaviour:
   minFireDelay: 1.5
   maxFireDelay: 4
   sightDistance: 20
+  coinPrefab: {fileID: 9011137529050501768, guid: c5c63f9ccc62b344494576ef391c1207, type: 3}
+  pearlPrefab: {fileID: 8929198381341273693, guid: fc89c68d497feee418309002b01c54cd, type: 3}
+  coinChance: 0.3
+  pearlChance: 0.1
