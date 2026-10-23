@@ -840,6 +840,8 @@ MonoBehaviour:
   topOffset: 0.8
   minTimeBetweenShots: 0.6
   thresholdLine: {fileID: 1146362639}
+  hunterPrefab: {fileID: 1429844451812268956, guid: f1084c7b1d3788141bff3b66f9d7f83a, type: 3}
+  hunterChance: 0.1
 --- !u!4 &1335785276
 Transform:
   m_ObjectHideFlags: 0

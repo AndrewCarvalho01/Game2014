@@ -28,6 +28,9 @@ public class SharkFormation : MonoBehaviour
     [SerializeField] private Transform thresholdLine;
     private float sharkHalfHeight;
 
+    [SerializeField] private GameObject hunterPrefab;
+    [SerializeField, Range(0.0f, 1.0f)] private float hunterChance = 0.1f;
+
     public bool IsEntering => entering;
     private Camera cam;
     private bool entering = true;
@@ -77,7 +80,8 @@ public class SharkFormation : MonoBehaviour
             for (int c = 0; c < columns; c++)
             {
                 // Each shark is a child, so moving the formation moves every shark.
-                GameObject shark = Instantiate(sharkPrefab, transform);
+                GameObject prefab = (Random.value < hunterChance) ? hunterPrefab : sharkPrefab;
+                GameObject shark = Instantiate(prefab, transform);
                 shark.transform.localPosition = new Vector3(startX + c * spacingX, -r * spacingY, 0.0f);
                 sharkHalfHeight = shark.GetComponent<SpriteRenderer>().bounds.extents.y;
             }
