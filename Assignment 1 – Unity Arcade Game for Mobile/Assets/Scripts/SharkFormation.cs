@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // Builds a grid of sharks, swims them in from the top, then sweeps them side to side,
 // stepping down at each edge like Space Invaders. Also decides when a shark may fire.
@@ -23,6 +24,10 @@ public class SharkFormation : MonoBehaviour
 
     [Header("Shooting")]
     [SerializeField] private float minTimeBetweenShots = 0.6f;
+
+    [SerializeField] private Transform thresholdLine;
+    private float sharkHalfHeight;
+
     public bool IsEntering => entering;
     private Camera cam;
     private bool entering = true;
@@ -74,6 +79,7 @@ public class SharkFormation : MonoBehaviour
                 // Each shark is a child, so moving the formation moves every shark.
                 GameObject shark = Instantiate(sharkPrefab, transform);
                 shark.transform.localPosition = new Vector3(startX + c * spacingX, -r * spacingY, 0.0f);
+                sharkHalfHeight = shark.GetComponent<SpriteRenderer>().bounds.extents.y;
             }
         }
     }
@@ -108,11 +114,13 @@ public class SharkFormation : MonoBehaviour
         // Find the outer sharks that are still alive.
         float minX = float.MaxValue;
         float maxX = float.MinValue;
+        float minY = float.MaxValue;
 
         foreach (Transform shark in transform)
         {
             minX = Mathf.Min(minX, shark.position.x);
             maxX = Mathf.Max(maxX, shark.position.x);
+            minY = Mathf.Min(minY, shark.position.y);
         }
 
         // Checking direction too means it turns only once per edge.
@@ -125,6 +133,12 @@ public class SharkFormation : MonoBehaviour
         {
             direction = 1;
             transform.position += Vector3.down * stepDown;
+        }
+
+        // Game over if the lowest shark's nose reaches the line.
+        if (thresholdLine != null && minY - sharkHalfHeight <= thresholdLine.position.y)
+        {
+            SceneManager.LoadScene("End");
         }
     }
     private void GetEdges(out float left, out float right)
