@@ -17,6 +17,7 @@ public class SharkBehavior : MonoBehaviour
     [SerializeField, Range(0.0f, 1.0f)] private float pearlChance = 0.1f;
 
     [SerializeField] private int killPoints = 10;
+    [SerializeField] private GameObject explosionPrefab;
 
     private SharkFormation formation;
     private LayerMask sightMask;
@@ -83,6 +84,7 @@ public class SharkBehavior : MonoBehaviour
         if (other.GetComponent<TorpedoBehavior>() != null)
         {
             GameController.AddPoints(killPoints);
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             DropLoot();
             Destroy(other.gameObject);
             Destroy(gameObject);

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6571974773027205501}
   - component: {fileID: 1183586432626437151}
   - component: {fileID: 9108291027071380873}
+  - component: {fileID: 5376441493982107344}
   m_Layer: 0
   m_Name: Shark
   m_TagString: Enemy
@@ -151,3 +152,27 @@ MonoBehaviour:
   pearlPrefab: {fileID: 8929198381341273693, guid: fc89c68d497feee418309002b01c54cd, type: 3}
   coinChance: 0.3
   pearlChance: 0.1
+  killPoints: 10
+  explosionPrefab: {fileID: 7662767845644318689, guid: 9a0935e46d4818340b13afc467b30821, type: 3}
+--- !u!95 &5376441493982107344
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429844451812268956}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 18dabd175007a754a9560d69861135c1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
