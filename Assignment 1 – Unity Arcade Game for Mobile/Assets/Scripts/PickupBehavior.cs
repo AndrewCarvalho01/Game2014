@@ -32,6 +32,7 @@ public class PickupBehavior : MonoBehaviour
         if (other.GetComponentInParent<PlayerBehavior>() != null)
         {
             Destroy(gameObject);
+            GameController.AddPoints(points);
         }
     }
 }

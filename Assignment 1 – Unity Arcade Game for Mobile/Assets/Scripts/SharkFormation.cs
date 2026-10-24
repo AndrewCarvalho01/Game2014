@@ -25,6 +25,11 @@ public class SharkFormation : MonoBehaviour
     [Header("Shooting")]
     [SerializeField] private float minTimeBetweenShots = 0.6f;
 
+    [Header("Waves")]
+    [SerializeField] private float speedIncrease = 1.15f;   // each wave is 15% faster
+    [SerializeField] private float speedLimit = 4.0f;        // never faster than this
+    public int Wave { get; private set; } = 1;
+
     [SerializeField] private Transform thresholdLine;
     private float sharkHalfHeight;
 
@@ -50,6 +55,7 @@ public class SharkFormation : MonoBehaviour
     {
         if (transform.childCount == 0)
         {
+            StartNextWave();
             return;   // If every shark is gone
         }
 
@@ -162,5 +168,17 @@ public class SharkFormation : MonoBehaviour
 
         lastShotTime = Time.time;
         return true;
+    }
+    private void StartNextWave()
+    {
+        Wave++;
+        speed = Mathf.Min(speed * speedIncrease, speedLimit);
+
+        direction = 1;
+        entering = true;
+        transform.position = new Vector3(0.0f, transform.position.y, 0.0f);
+
+        SpawnGrid();
+        PrepareEntrance();
     }
 }
