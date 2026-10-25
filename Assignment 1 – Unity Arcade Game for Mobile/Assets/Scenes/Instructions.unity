@@ -592,7 +592,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -134, y: 418}
+  m_AnchoredPosition: {x: -134, y: 403}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &742775016
@@ -615,7 +615,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "HOW TO PLAY\n\nHold the left or right side of the screen to move your submarine.\nYour sub fires torpedoes automatically while it moves.\n\nDestroy the sharks before they reach the red line. If they cross it, it\u2019s game over!\nDodge the sharks\u2019 bubbles. You have 3 lives.\nWatch out for red Hunter Sharks: get too close and they\u2019ll break formation and chase you down.\nCollect sinking coins and pearls for bonus points.\n\nSCORING\nShark 10 \xB7 Hunter Shark 50 \xB7 Coin 25 \xB7 Pearl 100\n\nEach wave is faster than the last. How long can you survive?"
+  m_text: "HOW TO PLAY\n\nHold the left or right side of the screen to move your submarine.\nYour sub fires torpedoes automatically while it moves.\n\nDestroy the sharks before they reach the red line. If they cross it, it\u2019s game over!\nDodge the sharks\u2019 bubbles. You have 3 lives.\nWatch out for red Hunter Sharks: get too close and they\u2019ll break formation and chase you down.\nCollect sinking coins and pearls for bonus points.\n\n1000 points gets you an extra life.\n\nSCORING\nShark 10 \xB7 Hunter Shark 50 \xB7 Coin 25 \xB7 Pearl 100\n\nEach wave is faster than the last. How long can you survive?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

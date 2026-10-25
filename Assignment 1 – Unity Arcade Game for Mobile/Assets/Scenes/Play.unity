@@ -357,6 +357,8 @@ MonoBehaviour:
   scoreLabel: {fileID: 623547537}
   livesLabel: {fileID: 1898170731}
   player: {fileID: 1767476477}
+  extraLifeEvery: 1000
+  extraLifeSound: {fileID: 8300000, guid: 82ae1e829e83db2418a93bed500f2a86, type: 3}
 --- !u!4 &495003881
 Transform:
   m_ObjectHideFlags: 0

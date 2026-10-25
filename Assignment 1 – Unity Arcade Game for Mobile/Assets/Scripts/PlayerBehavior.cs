@@ -145,6 +145,13 @@ public class PlayerBehavior : MonoBehaviour
 
         invincibleTimer = invincibleTime;
     }
+
+    // Called by GameController when the player reaches a bonus-life score.
+    public void AddLife()
+    {
+        Lives++;
+    }
+
     private void HandleInvincibility()
     {
         if (invincibleTimer <= 0.0f)
