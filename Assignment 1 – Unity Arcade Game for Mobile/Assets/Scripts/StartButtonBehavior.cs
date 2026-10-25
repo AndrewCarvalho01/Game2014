@@ -3,21 +3,16 @@ using UnityEngine.SceneManagement;
 
 public class StartButtonBehavior : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    [SerializeField] private AudioClip clickSound;
 
     public void OnStartButtonClicked()
     {
-        Debug.Log("Start button clicked");
+        AudioSource.PlayClipAtPoint(clickSound, Camera.main.transform.position);
+        Invoke(nameof(LoadScene), 0.15f);   // give the click time to play
+    }
+
+    private void LoadScene()
+    {
         SceneManager.LoadScene("Play");
     }
 }

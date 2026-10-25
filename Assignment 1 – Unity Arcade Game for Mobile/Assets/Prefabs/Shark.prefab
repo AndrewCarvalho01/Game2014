@@ -152,6 +152,8 @@ MonoBehaviour:
   pearlPrefab: {fileID: 8929198381341273693, guid: fc89c68d497feee418309002b01c54cd, type: 3}
   coinChance: 0.3
   pearlChance: 0.1
+  shootSound: {fileID: 8300000, guid: c42ab355bdd25b7449835a16d34269c6, type: 3}
+  explosionSound: {fileID: 8300000, guid: 5fd135dd658e8e94d83d87dfd87f2cf3, type: 3}
   killPoints: 10
   explosionPrefab: {fileID: 7662767845644318689, guid: 9a0935e46d4818340b13afc467b30821, type: 3}
 --- !u!95 &5376441493982107344

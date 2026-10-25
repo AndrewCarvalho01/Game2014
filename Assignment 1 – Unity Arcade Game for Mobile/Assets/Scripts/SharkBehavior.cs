@@ -16,6 +16,10 @@ public class SharkBehavior : MonoBehaviour
     [SerializeField, Range(0.0f, 1.0f)] private float coinChance = 0.3f;
     [SerializeField, Range(0.0f, 1.0f)] private float pearlChance = 0.1f;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip shootSound;
+    [SerializeField] private AudioClip explosionSound;
+
     [SerializeField] private int killPoints = 10;
     [SerializeField] private GameObject explosionPrefab;
 
@@ -88,6 +92,7 @@ public class SharkBehavior : MonoBehaviour
             DropLoot();
             Destroy(other.gameObject);
             Destroy(gameObject);
+            AudioSource.PlayClipAtPoint(explosionSound, Camera.main.transform.position);
         }
     }
 

@@ -3,21 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class BackButtonBehavior : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    [SerializeField] private AudioClip clickSound;
 
     public void OnBackButtonClicked()
     {
-        Debug.Log("Back button clicked");
+        if (clickSound != null)
+        {
+            AudioSource.PlayClipAtPoint(clickSound, Camera.main.transform.position);
+        }
+        Invoke(nameof(LoadScene), 0.15f);
+    }
+
+    private void LoadScene()
+    {
         SceneManager.LoadScene("Start");
     }
 }

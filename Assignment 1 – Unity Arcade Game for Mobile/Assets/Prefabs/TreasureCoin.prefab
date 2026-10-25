@@ -172,3 +172,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickupBehavior
   sinkSpeed: 2
   points: 25
+  pickupSound: {fileID: 8300000, guid: 07e842655666d914aa80f0e2f34fe66b, type: 3}

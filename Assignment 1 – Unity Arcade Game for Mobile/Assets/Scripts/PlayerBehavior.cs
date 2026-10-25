@@ -16,6 +16,10 @@ public class PlayerBehavior : MonoBehaviour
     [Header("Health")]
     [SerializeField] private int maxLives = 3;
     [SerializeField] private float invincibleTime = 1.5f;
+
+    [SerializeField] private AudioClip fireSound;
+    [SerializeField, Range(0.0f, 1.0f)] private float fireVolume = 0.4f;
+    [SerializeField] private AudioClip hitSound;
     public int Lives { get; private set; }
 
     private Rigidbody2D rb;
@@ -118,6 +122,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         Vector3 nose = transform.position + Vector3.up * halfHeight;
         Instantiate(torpedoPrefab, nose, Quaternion.identity);
+        AudioSource.PlayClipAtPoint(fireSound, Camera.main.transform.position, fireVolume);
     }
 
     // Health 
@@ -130,6 +135,7 @@ public class PlayerBehavior : MonoBehaviour
         }
 
         Lives--;
+        AudioSource.PlayClipAtPoint(hitSound, Camera.main.transform.position);
 
         if (Lives <= 0)
         {

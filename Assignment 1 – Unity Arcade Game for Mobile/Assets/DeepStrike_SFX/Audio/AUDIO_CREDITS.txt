@@ -1,0 +1,16 @@
+Deep Strike - Audio Credits
+===========================
+
+All sound effects in this folder were generated for this project with Claude (Anthropic's AI
+assistant) using Python (NumPy) sound synthesis. They are original sounds and do not come from
+the course materials.
+
+TorpedoFire.wav      Player fires a torpedo
+SharkShoot.wav       A shark fires a bubble
+SharkExplosion.wav   A shark is destroyed
+CoinPickup.wav       Coin collected
+PearlPickup.wav      Pearl collected
+PlayerHit.wav        Player loses a life
+ButtonClick.wav      Menu button pressed
+
+Music: (add the track name, artist and website here)

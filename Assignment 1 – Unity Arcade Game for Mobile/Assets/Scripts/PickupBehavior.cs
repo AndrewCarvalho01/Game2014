@@ -6,6 +6,7 @@ public class PickupBehavior : MonoBehaviour
 {
     [SerializeField] private float sinkSpeed = 2.0f;
     [SerializeField] private int points = 25;
+    [SerializeField] private AudioClip pickupSound;
 
     private Rigidbody2D rb;
     private Camera cam;
@@ -33,6 +34,7 @@ public class PickupBehavior : MonoBehaviour
         {
             Destroy(gameObject);
             GameController.AddPoints(points);
+            AudioSource.PlayClipAtPoint(pickupSound, Camera.main.transform.position);
         }
     }
 }

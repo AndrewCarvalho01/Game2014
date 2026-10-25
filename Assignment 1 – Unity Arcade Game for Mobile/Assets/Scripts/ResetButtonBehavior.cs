@@ -3,21 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class ResetButtonBehavior : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    [SerializeField] private AudioClip clickSound;
 
     public void OnResetButtonClicked()
     {
-        Debug.Log("Reset button clicked");
+        if (clickSound != null)
+        {
+            AudioSource.PlayClipAtPoint(clickSound, Camera.main.transform.position);
+        }
+        Invoke(nameof(LoadScene), 0.15f);   // give the click time to play
+    }
+
+    private void LoadScene()
+    {
         SceneManager.LoadScene("Start");
     }
 }
