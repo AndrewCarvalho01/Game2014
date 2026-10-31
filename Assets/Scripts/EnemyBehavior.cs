@@ -1,12 +1,16 @@
 using UnityEngine;
+
+// The enemy flies in from above, settles into its row near the top of the screen,
+// weaves left and right, and shoots down at random intervals.
+// After a while it flies back up and returns to its pool so the spawner can reuse it.
 public class EnemyBehavior : MonoBehaviour
 {
-    [SerializeField] private Boundary speedRange; // side-to-side speed
+    [SerializeField] private Boundary speedRange;                                          // side-to-side speed
     [SerializeField] private Boundary fireIntervalRange = new Boundary { min = 1.5f, max = 3.5f }; // seconds between shots
-    [SerializeField] private Boundary lifetimeRange = new Boundary { min = 8f, max = 15f }; // seconds before leaving
-    [SerializeField] private float flySpeed = 3f; // speed when entering/leaving
+    [SerializeField] private Boundary lifetimeRange = new Boundary { min = 8f, max = 15f };       // seconds before leaving
+    [SerializeField] private float flySpeed = 3f;                                          // speed when entering/leaving
 
-    private const float MinFireInterval = 0.5f; // seconds between shots
+    private const float MinFireInterval = 0.5f; // never shoot faster than this
 
     // Set by the spawner when the enemy is taken from the pool.
     [HideInInspector] public ObjectPool bulletPool;
@@ -23,15 +27,17 @@ public class EnemyBehavior : MonoBehaviour
         halfWidth = sr.bounds.extents.x;
         halfHeight = sr.bounds.extents.y;
     }
+
     void OnEnable()
     {
-        // Randomize the side-to-side speed, the time offset for the ping-pong motion, the fire timer, and the lifetime.
+        // Runs every time the enemy comes out of the pool, so each reuse starts fresh.
         speed = Random.Range(speedRange.min, speedRange.max);
         timeOffset = Random.Range(0f, 10f);
         fireTimer = NextFireInterval();
         lifeTimer = Random.Range(lifetimeRange.min, lifetimeRange.max);
         leaving = false;
     }
+
     void Update()
     {
         // Side to side between the screen edges.
@@ -73,6 +79,7 @@ public class EnemyBehavior : MonoBehaviour
 
         transform.position = new Vector2(x, y);
     }
+
     private void Shoot()
     {
         if (bulletPool == null)
@@ -88,9 +95,22 @@ public class EnemyBehavior : MonoBehaviour
             fireTimer = NextFireInterval();
         }
     }
+
     private float NextFireInterval()
     {
         float interval = Random.Range(fireIntervalRange.min, fireIntervalRange.max);
         return Mathf.Max(interval, MinFireInterval);
+    }
+
+    // Enemy rams the player: the player loses a life and the enemy goes back to its pool.
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        PlayerBehavior player = other.GetComponentInParent<PlayerBehavior>();
+
+        if (player != null)
+        {
+            player.TakeHit();
+            GetComponent<PooledObject>().ReturnToPool();
+        }
     }
 }

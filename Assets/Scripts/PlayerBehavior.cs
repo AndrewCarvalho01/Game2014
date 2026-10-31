@@ -1,28 +1,62 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
+// Controls the player's ship: touch movement, firing pooled bullets while moving, and lives.
 public class PlayerBehavior : MonoBehaviour
 {
-    [SerializeField] private float horizontalForce;
-    [Range(0.0f, 1.0f)] public float decay;
+    [Header("Movement")]
+    [SerializeField] private float horizontalForce = 20.0f;
+    [SerializeField, Range(0.0f, 1.0f)] private float decay = 0.1f;
+
+    [Header("Weapon")]
+    [SerializeField] private ObjectPool bulletPool;      // the player bullet pool (filled by the factory)
+    [SerializeField] private float fireCooldown = 0.3f;
+
+    [Header("Health")]
+    [SerializeField] private int maxLives = 3;
+    [SerializeField] private float invincibleTime = 1.5f;
+
+    public int Lives { get; private set; }
 
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
     private Camera cam;
     private float halfWidth;
+    private float halfHeight;
+    private float fireTimer;
+    private float invincibleTimer;
 
     void Start()
     {
+
+
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         cam = Camera.main;
-        // Half the ship's width, so the whole ship stays on screen, not just its centre.
-        halfWidth = GetComponentInChildren<SpriteRenderer>().bounds.extents.x;
+
+        halfWidth = sr.bounds.extents.x;
+        halfHeight = sr.bounds.extents.y;
+
+        Lives = maxLives;
     }
-    private void FixedUpdate()
+
+    void Update()
+    {
+        HandleFiring();
+        HandleInvincibility();
+    }
+
+    void FixedUpdate()
     {
         rb.linearVelocity *= (1.0f - decay);
         Move();
         CheckBounds();
     }
+
+    // ---------- Input ----------
+
+    // -1 for the left half of the screen, +1 for the right half, 0 when not touching.
     private float GetTouchDirection()
     {
         if (Touchscreen.current == null)
@@ -39,8 +73,6 @@ public class PlayerBehavior : MonoBehaviour
 
         Vector2 pos = touch.position.ReadValue();
 
-        // Screen.width updates when the phone rotates, so this still splits
-        // the screen into left and right halves in landscape.
         if (pos.x < Screen.width / 2)
         {
             return -1.0f;
@@ -48,6 +80,8 @@ public class PlayerBehavior : MonoBehaviour
 
         return 1.0f;
     }
+
+    // ---------- Movement ----------
 
     private void Move()
     {
@@ -57,10 +91,9 @@ public class PlayerBehavior : MonoBehaviour
 
     private void CheckBounds()
     {
-        // Work out the screen edges from the camera every step, so the limits
-        // grow in landscape and shrink back in portrait.
-        float min = cam.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x + halfWidth;
-        float max = cam.ViewportToWorldPoint(new Vector3(1f, 0f, 0f)).x - halfWidth;
+        // Screen edges from the camera, moved in by half the ship so it stays fully visible.
+        float min = cam.ViewportToWorldPoint(new Vector3(0.0f, 0.0f, 0.0f)).x + halfWidth;
+        float max = cam.ViewportToWorldPoint(new Vector3(1.0f, 0.0f, 0.0f)).x - halfWidth;
 
         Vector2 pos = rb.position;
 
@@ -69,6 +102,68 @@ public class PlayerBehavior : MonoBehaviour
             pos.x = Mathf.Clamp(pos.x, min, max);
             rb.position = pos;
             rb.linearVelocity = new Vector2(0.0f, rb.linearVelocity.y);
+        }
+    }
+
+    // ---------- Weapon ----------
+
+    private void HandleFiring()
+    {
+        fireTimer -= Time.deltaTime;
+
+        // Fire automatically while a finger is down.
+        bool isMoving = GetTouchDirection() != 0.0f;
+        if (isMoving && fireTimer <= 0.0f)
+        {
+            Fire();
+            fireTimer = fireCooldown;
+        }
+    }
+
+    private void Fire()
+    {
+        // Take a bullet from the pool instead of creating a new one.
+        Vector3 nose = transform.position + Vector3.up * halfHeight;
+        bulletPool.Get(nose);
+    }
+
+    // ---------- Health ----------
+
+    // Called by enemy bullets and enemies when they hit the player.
+    public void TakeHit()
+    {
+        Debug.Log("TakeHit called. Lives before: " + Lives);
+        if (invincibleTimer > 0.0f)
+        {
+            return;
+        }
+
+        Lives--;
+
+        if (Lives <= 0)
+        {
+            SceneManager.LoadScene("End");
+            return;
+        }
+
+        invincibleTimer = invincibleTime;
+    }
+
+    private void HandleInvincibility()
+    {
+        if (invincibleTimer <= 0.0f)
+        {
+            return;
+        }
+
+        invincibleTimer -= Time.deltaTime;
+
+        // Blink on and off every 0.1 seconds while invincible.
+        sr.enabled = Mathf.Repeat(invincibleTimer, 0.2f) > 0.1f;
+
+        if (invincibleTimer <= 0.0f)
+        {
+            sr.enabled = true;
         }
     }
 }

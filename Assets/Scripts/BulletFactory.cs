@@ -1,30 +1,32 @@
-using System.Collections;
 using UnityEngine;
-using static BulletType;
 
-public class BulletFcatory : MonoBehaviour
+// The two kinds of bullet in the game.
+public enum BulletType
 {
+    Player,
+    Enemy
+}
 
-    [SerializeField]
-    private GameObject enemyBullet;
-    [SerializeField]
-    private GameObject playerBullet;
+// Factory pattern: this is the one place that knows how to build a bullet.
+// The bullet pools ask the factory for new bullets instead of calling Instantiate themselves,
+// so if a bullet ever needs to be built differently, only this script changes.
+public class BulletFactory : MonoBehaviour
+{
+    [SerializeField] private GameObject playerBulletPrefab;
+    [SerializeField] private GameObject enemyBulletPrefab;
 
-    public GameObject CreateBullet(Bullet type = Bullet.Enemy)
+    private int bulletsCreated;
+
+    // Builds a new, hidden bullet of the requested type as a child of the given parent.
+    public GameObject CreateBullet(BulletType type, Transform parent)
     {
-        GameObject tempBullet = null;
+        GameObject prefab = (type == BulletType.Player) ? playerBulletPrefab : enemyBulletPrefab;
 
-        switch (type)
-        {
-            case Bullet.Enemy:
-                tempBullet = Instantiate(enemyBullet);
-                break;
-            case Bullet.Player:
-                tempBullet = Instantiate(playerBullet);
-                break;
-        }
-        tempBullet.transform.SetParent(transform);
-        tempBullet.SetActive(false);
-        return tempBullet;
+        GameObject bullet = Instantiate(prefab, parent);
+        bullet.name = type + "Bullet_" + bulletsCreated;
+        bullet.SetActive(false);
+
+        bulletsCreated++;
+        return bullet;
     }
 }

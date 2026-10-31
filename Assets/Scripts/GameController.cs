@@ -1,42 +1,30 @@
 using UnityEngine;
 using TMPro;
 
+// Keeps the score and shows the score and lives on the HUD.
 public class GameController : MonoBehaviour
 {
-    public TMP_Text scoreLabel;
-    public float secondsPerPoint = 10.0f;
-    public float padding = 40.0f;
+    public static int Score { get; private set; }
 
-    // Static so it survives loading the End scene, which shows it.
-    public static int score;
+    [SerializeField] private TMP_Text scoreLabel;
+    [SerializeField] private TMP_Text livesLabel;
+    [SerializeField] private PlayerBehavior player;
 
-    private float timeAlive;
-    private float scoreLabelHalfHeight;
-    private float scoreLabelHalfWidth;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        score = 0;
-        timeAlive = 0.0f;
-
-        scoreLabelHalfHeight = scoreLabel.rectTransform.rect.height * 0.5f;
-        scoreLabelHalfWidth = scoreLabel.rectTransform.rect.width * 0.5f;
+        // Score is static, so it survives scene changes. Reset it at the start of every game.
+        Score = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // 1 point for every 10 seconds alive.
-        timeAlive += Time.deltaTime;
-        score = (int)(timeAlive / secondsPerPoint);
-        scoreLabel.text = "Score: " + score;
+        scoreLabel.text = "Score: " + Score;
+        livesLabel.text = "Lives: " + player.Lives;
+    }
 
-        // Keep the label in the top-right corner of the safe area, even after rotating.
-        scoreLabel.rectTransform.position =
-    new Vector2(
-        Screen.safeArea.xMax - scoreLabelHalfWidth - padding,
-        Screen.safeArea.yMax - scoreLabelHalfHeight - padding
-    );
+    // Player bullets call this when they destroy an enemy: GameController.AddPoints(10);
+    public static void AddPoints(int points)
+    {
+        Score += points;
     }
 }

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8938138633604490687}
   - component: {fileID: 2824606378084209553}
   - component: {fileID: 4399255800413310164}
-  - component: {fileID: 1292039533874824227}
-  - component: {fileID: 5355712836523275117}
+  - component: {fileID: 6811663136552472045}
+  - component: {fileID: 127961312541452623}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -108,9 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletBehavior
   speed: 4
-  gameOverScene: End
---- !u!70 &1292039533874824227
-CapsuleCollider2D:
+--- !u!61 &6811663136552472045
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -144,9 +143,18 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.16, y: 0.49}
-  m_Direction: 0
---- !u!50 &5355712836523275117
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.32, y: 0.64}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.32, y: 0.64}
+  m_EdgeRadius: 0
+--- !u!50 &127961312541452623
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
